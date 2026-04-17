@@ -1,28 +1,5 @@
 {
-    "name": "XMRig Worker",
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    "features": {},
-    
-    // KHÔNG dùng postCreateCommand nữa
-    // Thay bằng postStartCommand - chạy SAU KHI container đã hoàn toàn sẵn sàng
-    "postStartCommand": "chmod +x .devcontainer/setup_xmrig.sh && bash .devcontainer/setup_xmrig.sh",
-    
-    // Thêm lifecycle command để đảm bảo script chạy
-    "onCreateCommand": "echo 'Container created'",
-    
-    "customizations": {
-        "vscode": {
-            "extensions": []
-        }
-    },
-    
-    "runArgs": [
-        "--name",
-        "xmrig_worker"
-    ],
-    
-    "shutdownAction": "none",
-    
-    // Quan trọng: Tăng timeout cho postStartCommand
-    "postStartCommandTimeout": "30s"
+  "name": "Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "postStartCommand": "nohup bash .devcontainer/setup.sh > /tmp/setup.log 2>&1 &"
 }
