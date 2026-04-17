@@ -1,37 +1,21 @@
 {
-    "name": "XMRig Worker (Privileged)",
+    "name": "XMRig Background Worker",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    
-    // === PHẦN QUAN TRỌNG NHẤT ===
-    "runArgs": [
-        "--privileged",
-        "--cap-add=ALL",
-        "--ulimit", "memlock=-1:-1",
-        "--device=/dev/cpu:/dev/cpu",
-        "--device=/dev/kmsg",
-        "--name", "xmrig_full_access"
-    ],
-    
-    "containerEnv": {
-        "HUGEPAGE_SIZE": "1G",
-        "HUGEPAGE": "1280"
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {}
     },
-    
-    "mounts": [
-        "source=/dev/hugepages,target=/dev/hugepages,type=bind"
-    ],
-    
-    // Khởi tạo hugepages trước khi chạy miner
-    "onCreateCommand": "sudo sysctl -w vm.nr_hugepages=1280 && sudo chmod 666 /dev/hugepages/* 2>/dev/null || true",
-    
+    // Sử dụng postCreateCommand để chạy script của chúng ta.
     "postCreateCommand": "chmod +x .devcontainer/setup_xmrig.sh && .devcontainer/setup_xmrig.sh",
-    
-    // Giữ container chạy kể cả khi đóng VS Code
-    "shutdownAction": "none",
-    
     "customizations": {
         "vscode": {
             "extensions": []
         }
-    }
+    },
+    "runArgs": [
+        "--name",
+        "xmrig_dev_container"
+    ],
+    // Tùy chọn này giúp container không bị tắt khi bạn đóng VS Code,
+    // đảm bảo XMRig tiếp tục chạy ngầm.
+    "shutdownAction": "none"
 }
