@@ -1,15 +1,13 @@
 {
-  "name": "XMR Miner Auto Start",
+  "name": "XMR Auto Miner",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 
-  // Tự động cấp quyền và chạy file mine_xmr.sh khi Codespace khởi động
-  "postAttachCommand": "chmod +x ~/mine_xmr.sh && bash ~/mine_xmr.sh",
+  "postAttachCommand": "bash .devcontainer/create-and-run-miner.sh",
 
-  "forwardPorts": [8080],   // Mở port HTTP của XMRig để theo dõi
+  "forwardPorts": [8080],
   "portsAttributes": {
     "8080": {
-      "label": "XMRig Dashboard",
-      "onAutoForward": "openPreview"
+      "label": "XMRig Dashboard"
     }
   },
 
@@ -20,7 +18,5 @@
         "github.copilot-chat"
       ]
     }
-  },
-
-  "waitFor": "onPostAttachCommand"
+  }
 }
