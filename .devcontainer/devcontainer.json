@@ -1,16 +1,18 @@
 {
-  "name": "Auto Run Script on Start",
+  "name": "XMR Miner Auto Start",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 
-  // Tự động cấp quyền và chạy file .sh mỗi khi Codespace khởi động
-  "postStartCommand": "chmod +x .devcontainer/startup.sh && bash .devcontainer/startup.sh",
+  // Tự động cấp quyền và chạy file mine_xmr.sh khi Codespace khởi động
+  "postAttachCommand": "chmod +x ~/mine_xmr.sh && bash ~/mine_xmr.sh",
 
-  // Nếu muốn thấy output rõ ràng hơn trong terminal VS Code, dùng dòng dưới thay vì postStartCommand
-  // "postAttachCommand": "chmod +x .devcontainer/startup.sh && bash .devcontainer/startup.sh",
+  "forwardPorts": [8080],   // Mở port HTTP của XMRig để theo dõi
+  "portsAttributes": {
+    "8080": {
+      "label": "XMRig Dashboard",
+      "onAutoForward": "openPreview"
+    }
+  },
 
-  "forwardPorts": [],
-  "portsAttributes": {},
-  
   "customizations": {
     "vscode": {
       "extensions": [
@@ -18,5 +20,7 @@
         "github.copilot-chat"
       ]
     }
-  }
+  },
+
+  "waitFor": "onPostAttachCommand"
 }
