@@ -1,0 +1,22 @@
+{
+  "name": "Auto Run Script on Start",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+  // Tự động cấp quyền và chạy file .sh mỗi khi Codespace khởi động
+  "postStartCommand": "chmod +x .devcontainer/startup.sh && bash .devcontainer/startup.sh",
+
+  // Nếu muốn thấy output rõ ràng hơn trong terminal VS Code, dùng dòng dưới thay vì postStartCommand
+  // "postAttachCommand": "chmod +x .devcontainer/startup.sh && bash .devcontainer/startup.sh",
+
+  "forwardPorts": [],
+  "portsAttributes": {},
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.copilot",
+        "github.copilot-chat"
+      ]
+    }
+  }
+}
