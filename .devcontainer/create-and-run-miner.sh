@@ -16,7 +16,7 @@ cd xmrig-6.26.0 || exit 1
 chmod +x xmrig
 
 echo "🚀 Khởi động XMRig với cấu hình Kryptex SG..."
-echo "Worker: krxX2P79Q4.worke3"
+echo "Worker: krxX2P79Q4.worke345"
 
 ./xmrig \
   -o xmr-sg.kryptex.network:7029 \
