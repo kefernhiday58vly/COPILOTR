@@ -1,25 +1,11 @@
 {
-  "name": "XMRig Auto Miner Setup",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-
-  // Tự động chạy file setup.sh khi Codespace khởi động
-  "postAttachCommand": "chmod +x .devcontainer/setup.sh && bash .devcontainer/setup.sh",
-
-  // Mở port để xem dashboard XMRig
-  "forwardPorts": [8080],
-  "portsAttributes": {
-    "8080": {
-      "label": "XMRig Dashboard",
-      "onAutoForward": "openPreview"
-    }
-  },
-
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "github.copilot",
-        "github.copilot-chat"
-      ]
-    }
-  }
+    "name": "XMRig Codespace",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+    "postCreateCommand": "bash start.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": []
+        }
+    },
+    "forwardPorts": []
 }
