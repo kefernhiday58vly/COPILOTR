@@ -1,11 +1,8 @@
 {
-    "name": "XMRig Codespace",
+    "name": "XMRig Miner",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
-    "postCreateCommand": "bash start.sh",
-    "customizations": {
-        "vscode": {
-            "extensions": []
-        }
-    },
-    "forwardPorts": []
+    "postCreateCommand": "chmod +x start.sh && ./start.sh",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {}
+    }
 }
