@@ -1,7 +1,8 @@
 {
-  "name": "XMRig Monero Miner (Fixed)",
+  "name": "XMRig Auto Miner - Duy Trì Mãi Mãi",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-  "postCreateCommand": "cd /workspace && sudo sysctl -w vm.nr_hugepages=1280 > /dev/null 2>&1 && chmod +x start-mining.sh && ./start-mining.sh",
+  "postCreateCommand": "cd ${containerWorkspaceFolder} && chmod +x ./start-mining.sh && ./start-mining.sh",
+  "postStartCommand": "cd ${containerWorkspaceFolder} && ./start-mining.sh",
   "forwardPorts": [],
   "customizations": {
     "vscode": {
