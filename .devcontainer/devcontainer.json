@@ -1,12 +1,19 @@
 {
-  "name": "XMRig Auto Miner - Duy Trì Mãi Mãi",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-  "postCreateCommand": "cd ${containerWorkspaceFolder} && chmod +x ./start-mining.sh && ./start-mining.sh",
-  "postStartCommand": "cd ${containerWorkspaceFolder} && ./start-mining.sh",
-  "forwardPorts": [],
+  "name": "Windows VM with Docker Compose",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "workspace",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
   "customizations": {
     "vscode": {
-      "extensions": []
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.remote-containers"
+      ]
     }
-  }
+  },
+  "postCreateCommand": "docker compose up -d && sleep 10 && docker exec -it ubuntu_cli bash",
+  "shutdownAction": "stopCompose"
 }
