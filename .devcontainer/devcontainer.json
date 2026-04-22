@@ -1,11 +1,14 @@
 {
-  "name": "Windows VM with Docker Compose",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "workspace",
-  "workspaceFolder": "/workspace",
+  "name": "YMDin Auto Minor",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    }
   },
+  "postCreateCommand": "bash /workspace/.devcontainer/setup.sh",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -14,7 +17,8 @@
       ]
     }
   },
-  "postCreateCommand": "bash /workspace/.devcontainer/post-create.sh",
-  "shutdownAction": "stopCompose",
-  "remoteUser": "root"
+  "remoteUser": "root",
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ]
 }
