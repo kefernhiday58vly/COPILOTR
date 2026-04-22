@@ -1,12 +1,7 @@
 services:
-  ubuntu:
-    image: ubuntu:22.04
-    container_name: ubuntu_cli
-    stdin_open: true     # giữ terminal mở
-    tty: true            # cho phép dùng bash
-    command: bash
-
+  app:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    container_name: ubuntu_miner
+    command: sleep infinity
     volumes:
-      - ./data:/workspace   # thư mục chia sẻ
-
-    restart: unless-stopped
+      - ../:/workspaces:cached
