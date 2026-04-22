@@ -1,7 +1,7 @@
 services:
   app:
     image: mcr.microsoft.com/devcontainers/base:ubuntu
-    container_name: ubuntu_miner
+    container_name: ubuntu_my
     command: sleep infinity
     volumes:
       - ../:/workspaces:cached
